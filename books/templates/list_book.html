@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load i18n %}
+
 {% block content %}
 
     {% if messages %}
@@ -9,11 +11,15 @@
         </ul>
     {% endif %}
 
+    {% blocktranslate with book_count=books.count %}
+        Esta es una tienda de libros que cuenta con: {{ book_count }}
+    {% endblocktranslate %}
+
     {% for book in books %}
         <article>
-            <p>title: {{ book.title }}</p>
-            <p>author: {{ book.author.username }}</p>
-            <p>rating: {{ book.rating }}</p>
+            <p>{% translate "title" %}: {{ book.title }}</p>
+            <p>{% translate "author" %}: {{ book.author.username }}</p>
+            <p>{% translate "rating" %}: {{ book.rating }}</p>
         </article>
     {% endfor %}
 

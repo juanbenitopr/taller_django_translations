@@ -1,0 +1,41 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><strong>{% translate "Book Store" %}</strong></li>
+        </ul>
+        <ul>
+            <li><a href="{% url 'list-books' %}" role="button">{% translate "Book's List" %}</a></li>
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                {% get_current_language as CURRENT_LANGUAGE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                <select name="language">
+                    {% for lang in languages %}
+                        <option value="{{ lang.code }}" {% if lang.code == CURRENT_LANGUAGE %}
+                                selected {% endif %}>{{ lang.name_local }}</option>
+                    {% endfor %}
+                </select>
+
+                <input type="submit">
+            </form>
+
+        </ul>
+    </nav>
+</header>
+<main>
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>
